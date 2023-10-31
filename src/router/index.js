@@ -23,51 +23,35 @@ export const constantRoutes = [
 export const asyncRoutes = [
   {
     path: '/',
-    component: Layout,
-    redirect: '/index',
-    meta: {
-      title: '首页',
-      affix: true,
-    },
-    children: [
-      {
-        path: 'index',
-        name: 'Index',
-        component: () => import('@/views/index'),
-        meta: {
-          title: '首页',
-          affix: true,
-        },
-      },
-    ],
+    redirect: '/distribut/list',
+    hidden: true,
   },
-  {
-    path: '/vab',
-    component: Layout,
-    redirect: '/vab/table',
-    // alwaysShow: true,
-    meta: {
-      title: '组件',
-    },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/vab/table'),
-        meta: {
-          title: '表格',
-        },
-      },
-      {
-        path: 'icon',
-        name: 'Icon',
-        component: () => import('@/views/vab/icon'),
-        meta: {
-          title: '图标',
-        },
-      },
-    ],
-  },
+  // {
+  //   path: '/user',
+  //   component: Layout,
+  //   redirect: '/user/list',
+  //   meta: {
+  //     title: '用户管理',
+  //   },
+  //   children: [
+  //     {
+  //       path: 'list',
+  //       name: 'List',
+  //       component: () => import('@/views/distribut/list'),
+  //       meta: {
+  //         title: '用户列表',
+  //       },
+  //     },
+  //     {
+  //       path: 'list2',
+  //       name: 'List2',
+  //       component: () => import('@/views/distribut/list'),
+  //       meta: {
+  //         title: '用户列表',
+  //       },
+  //     },
+  //   ],
+  // },
   {
     path: '/distribut',
     component: Layout,

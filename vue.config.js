@@ -17,9 +17,8 @@ const {
   build7z,
   donation,
 } = require('./src/config')
-const { webpackBarName, webpackBanner, donationConsole } = require('vab-config')
+const { webpackBarName, webpackBanner } = require('vab-config')
 
-if (donation) donationConsole()
 const { version, author } = require('./package.json')
 const Webpack = require('webpack')
 const WebpackBar = require('webpackbar')
@@ -166,9 +165,9 @@ module.exports = {
           javascriptEnabled: true,
           modifyVars: {
             'vab-color-blue': '#1890ff',
-            'vab-margin': '20px',
-            'vab-padding': '20px',
-            'vab-header-height': '65px',
+            'vab-margin': '12px',
+            'vab-padding': '12px',
+            'vab-header-height': '64px',
           },
         },
       },

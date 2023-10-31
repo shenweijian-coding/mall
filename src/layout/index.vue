@@ -13,7 +13,7 @@
       :class="classObj"
       :trigger="null"
     >
-      <vab-logo />
+      <!-- <vab-logo /> -->
       <a-menu
         class="vab-menu"
         theme="dark"
@@ -66,7 +66,7 @@
   </a-layout>
 </template>
 <script>
-  import VabLogo from './vab-logo'
+  // import VabLogo from './vab-logo'
   import VabAvatar from './vab-avatar'
   import VabMenu from './vab-menu'
   // import VabTabs from './vab-tabs'
@@ -76,7 +76,7 @@
 
   export default {
     components: {
-      VabLogo,
+      // VabLogo,
       VabAvatar,
       VabMenu,
       // VabTabs,
@@ -114,11 +114,13 @@
     watch: {
       $route: {
         handler({ path, matched }) {
+          console.log(path, matched)
           if (matched[0].children.length > 1) {
             this.selectedKeys = [matched[0].path]
             this.childSelectedKeys = [path]
           } else {
             this.selectedKeys = [matched[0].path]
+            this.childSelectedKeys = [path]
           }
           // matched[0].children.length > 1
           //   ? (this.selectedKeys = [path])
@@ -167,7 +169,7 @@
       margin-left: 180px;
     }
     .vab-menu {
-      height: calc(100vh - @vab-header-height);
+      height: calc(100vh);
     }
     .vab-layout {
       padding-left: 0px;

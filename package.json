@@ -52,9 +52,6 @@
     "vab-config": "file:vab-config",
     "webpackbar": "^5.0.0-3"
   },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
   "lint-staged": {
     "*.{js,jsx,vue}": [
       "vue-cli-service lint",
