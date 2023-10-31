@@ -1,7 +1,7 @@
 <template>
   <a-menu-item :key="routeChildren.path" @click.capture="handleLink">
-    <span class="anticon">
-      <vab-icon :icon="routeChildren.meta.icon"></vab-icon>
+    <span class="anticon" v-if="routeChildren?.meta?.icon">
+      <vab-icon :icon="routeChildren?.meta?.icon"></vab-icon>
     </span>
     <span>{{ routeChildren.meta.title }}</span>
   </a-menu-item>

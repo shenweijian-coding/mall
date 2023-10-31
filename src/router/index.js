@@ -22,36 +22,33 @@ export const constantRoutes = [
 ]
 export const asyncRoutes = [
   {
+    path: '/:pathMatch(.*)',
+    redirect: '/404',
+    hidden: true,
+  },
+  {
     path: '/',
     redirect: '/distribut/list',
     hidden: true,
   },
-  // {
-  //   path: '/user',
-  //   component: Layout,
-  //   redirect: '/user/list',
-  //   meta: {
-  //     title: '用户管理',
-  //   },
-  //   children: [
-  //     {
-  //       path: 'list',
-  //       name: 'List',
-  //       component: () => import('@/views/distribut/list'),
-  //       meta: {
-  //         title: '用户列表',
-  //       },
-  //     },
-  //     {
-  //       path: 'list2',
-  //       name: 'List2',
-  //       component: () => import('@/views/distribut/list'),
-  //       meta: {
-  //         title: '用户列表',
-  //       },
-  //     },
-  //   ],
-  // },
+  {
+    path: '/user',
+    component: Layout,
+    redirect: '/user/list',
+    meta: {
+      title: '用户管理',
+    },
+    children: [
+      {
+        path: 'list',
+        name: 'user-list',
+        component: () => import('@/views/user/list'),
+        meta: {
+          title: '用户列表',
+        },
+      },
+    ],
+  },
   {
     path: '/distribut',
     component: Layout,
@@ -62,7 +59,7 @@ export const asyncRoutes = [
     children: [
       {
         path: 'list',
-        name: 'List',
+        name: 'distribut-list',
         component: () => import('@/views/distribut/list'),
         meta: {
           title: '分销商列表',
@@ -70,7 +67,7 @@ export const asyncRoutes = [
       },
       {
         path: 'grade',
-        name: 'Grade',
+        name: 'distribut-grade',
         component: () => import('@/views/distribut/grade'),
         meta: {
           title: '分销商等级',
@@ -78,45 +75,71 @@ export const asyncRoutes = [
       },
       {
         path: 'good',
-        name: 'Good',
+        name: 'distribut-good',
         component: () => import('@/views/distribut/good'),
         meta: {
           title: '分销商品',
         },
       },
+      {
+        path: 'order',
+        name: 'distribut-order',
+        component: () => import('@/views/distribut/order'),
+        meta: {
+          title: '分销订单',
+        },
+      },
+      {
+        path: 'withdraw',
+        name: 'distribut-withdraw',
+        component: () => import('@/views/distribut/withdraw'),
+        meta: {
+          title: '提现管理',
+        },
+      },
+      {
+        path: 'config',
+        name: 'distribut-config',
+        component: () => import('@/views/distribut/config'),
+        meta: {
+          title: '分销设置',
+        },
+      },
     ],
   },
-  // {
-  //   path: '/error',
-  //   name: 'Error',
-  //   component: Layout,
-  //   redirect: '/error/403',
-  //   meta: {
-  //     title: '错误页',
-  //   },
-  //   children: [
-  //     {
-  //       path: '403',
-  //       name: 'Error403',
-  //       component: () => import('@/views/403'),
-  //       meta: {
-  //         title: '403',
-  //       },
-  //     },
-  //     {
-  //       path: '404',
-  //       name: 'Error404',
-  //       component: () => import('@/views/404'),
-  //       meta: {
-  //         title: '404',
-  //       },
-  //     },
-  //   ],
-  // },
   {
-    path: '/*',
-    redirect: '/404',
-    hidden: true,
+    path: '/sell',
+    component: Layout,
+    redirect: '/sell/list',
+    meta: {
+      title: '经销管理',
+    },
+    children: [
+      {
+        path: 'list',
+        name: 'sell-list',
+        component: () => import('@/views/sell/list'),
+        meta: {
+          title: '经销商列表',
+        },
+      },
+      {
+        path: 'grade',
+        name: 'sell-grade',
+        component: () => import('@/views/sell/grade'),
+        meta: {
+          title: '经销商等级',
+        },
+      },
+      {
+        path: 'good',
+        name: 'sell-good',
+        component: () => import('@/views/sell/good'),
+        meta: {
+          title: '经销商品',
+        },
+      },
+    ],
   },
 ]
 const router = createRouter({
