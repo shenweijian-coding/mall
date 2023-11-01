@@ -1,11 +1,14 @@
-export const getFormConfigParams = formConfig => {
+export const getFormConfigParams = (formConfig) => {
   const params = {}
 
   for (const prop in formConfig) {
     const formItem = formConfig[prop]
 
     // 需要有value属性
-    if (formItem.hasOwnProperty('value') || formItem.hasOwnProperty('inputValue')) {
+    if (
+      formItem.hasOwnProperty.call('value') ||
+      formItem.hasOwnProperty.call('inputValue')
+    ) {
       const { value, type, getValue, label, inputValue, selectValue } = formItem
 
       if (getValue) {
@@ -44,7 +47,9 @@ export const getFormConfigParams = formConfig => {
           case 'batch':
             var content = inputValue ? inputValue.split(/\r|\n/) : undefined
             if (content) {
-              params[prop + 'Content'] = content.map(o => o.trim()).filter(o => o.length)
+              params[prop + 'Content'] = content
+                .map((o) => o.trim())
+                .filter((o) => o.length)
               params[prop + 'Type'] = selectValue
             }
             break

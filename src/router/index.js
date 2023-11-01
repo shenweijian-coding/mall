@@ -28,7 +28,7 @@ export const asyncRoutes = [
   },
   {
     path: '/',
-    redirect: '/distribut/list',
+    redirect: '/user',
     hidden: true,
   },
   {

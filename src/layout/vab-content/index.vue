@@ -2,7 +2,9 @@
   <a-layout-content class="vab-content">
     <router-view v-slot="{ Component }">
       <transition mode="out-in" name="fade-transform">
-        <component :is="Component" />
+        <div>
+          <component :is="Component" />
+        </div>
       </transition>
     </router-view>
   </a-layout-content>
@@ -45,9 +47,9 @@
       100vh - @vab-header-height - @vab-padding - @vab-padding - @vab-padding -
         @vab-padding
     ) !important;
-    padding: @vab-padding;
+    // padding: @vab-padding;
     margin: @vab-margin;
-    background: #fff;
+    // background: #fff;
     .error-container {
       height: calc(
         100vh - @vab-header-height - @vab-padding - @vab-padding - @vab-padding -

@@ -1,7 +1,7 @@
 <template>
   <a-form
     ref="ConfigForm"
-    :model="formConfig"
+    :form="formConfig"
     v-bind="$attrs"
     :laba-width="labelWidth"
     @submit.prevent
@@ -45,7 +45,6 @@
             :laba-width="
               item.label ? (inline ? item.labelWidth : labelWidth) : '0px'
             "
-            :prop="[key] + '[value]'"
           >
             <!--              <template v-if="item.longLabel" slot="label">-->
             <!--                <div v-tooltip style="width:100%;overflow:hidden; white-space:nowrap; text-overflow:ellipsis">-->
@@ -65,6 +64,9 @@
               @change="
                 item.onChange && item.onChange(item.value, realFormConfig)
               "
+              :style="{
+                width: item.width || '200px',
+              }"
             />
 
             <!-- <NumInput
@@ -90,8 +92,11 @@
               @change="
                 item.onChange && item.onChange(item.value, realFormConfig)
               "
+              :style="{
+                width: item.width || '200px',
+              }"
             >
-              <a-option
+              <a-select-option
                 v-for="it in item.options"
                 :key="it.id !== undefined ? it.id : it.value"
                 :label="it.name !== undefined ? it.name : it.label"
@@ -110,13 +115,11 @@
               :inactive-value="item.options.falseValue"
             />
 
-            <a-date-picker
+            <a-range-picker
               v-else-if="item.type === 'daterange'"
               v-model="item.value"
               type="daterange"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
+              separator="至"
               value-format="yyyy-MM-dd HH:mm:ss"
               @change="(value) => handleDateChange(key, value, item)"
             />
@@ -131,14 +134,17 @@
               @change="(value) => handleDateChange(key, value, item)"
             />
 
-            <!-- <DateTimeRange v-else-if="item.type ==='date-time-range'" v-model="item.value" /> -->
+            <DateTimeRange
+              v-else-if="item.type === 'date-time-range'"
+              v-model="item.value"
+            />
             <!-- <MaxMinInput v-else-if="item.type === 'numrange'" v-model="item.value" :precision="item.precision" /> -->
 
             <!-- <marksSelect v-else-if="item.type === 'mark'" v-model="item.value" :options="item.options" /> -->
 
             <!-- <QuickDateRange v-else-if="item.type ==='quick-date-range'" :form-key="key" :config="item" @handleDateChange="handleDateChange" /> -->
 
-            <a-cascader
+            <!-- <a-cascader
               v-else-if="item.type === 'cascader'"
               v-model="item.value"
               :placeholder="item.placeholder || `请选择`"
@@ -156,9 +162,9 @@
               @change="
                 item.onChange && item.onChange(item.value, realFormConfig)
               "
-            />
+            /> -->
 
-            <a-input
+            <!-- <a-input
               v-else-if="item.type === 'selectinput'"
               v-model="item.inputValue"
               class="selectinput"
@@ -171,20 +177,20 @@
               <a-select
                 slot="prepend"
                 v-model="item.selectValue"
-                :style="{width: item.label ? '68px' : '120px', padding: 0}"
+                :style="{ width: item.label ? '68px' : '120px', padding: 0 }"
                 @change="
                   item.onChange &&
                     item.onChange(item.selectValue, realFormConfig)
                 "
               >
-                <a-option
+                <a-select-option
                   v-for="it in item.options"
                   :key="it.id !== undefined ? it.id : it.value"
                   :value="it.id !== undefined ? it.id : it.value"
                   :label="it.name !== undefined ? it.name : it.label"
                 />
               </a-select>
-            </a-input>
+            </a-input> -->
             <!-- 
               <select-tree
                 v-else-if="item.type === 'select-tree'"
@@ -197,7 +203,7 @@
                 ref="classTreeDom"
                 v-model="item.value"
               >
-                <a-option
+                <a-select-option
                   :label="item.selectedLabel"
                   :value="item.value"
                   style="height:100%"
@@ -211,7 +217,7 @@
                     class="goodsClass-tree"
                     @node-click="handleNodeClick($event,item)"
                   />
-                </a-option>
+                </a-select-option>
               </a-select> -->
 
             <a-input
@@ -240,218 +246,218 @@
 </template>
 
 <script>
-// import {deepCopy} from "@/utils/deep-copy"
-// import MaxMinInput from '@/components/max-min-input'
-// import SelectTree from '@/components/select-tree/index.vue'
-// import DateTimeRange from '@/components/date-time-range/index.vue'
-// import NumInput from '@/components/auth-num-input/index.vue'
-// import marksSelect from '@/components/marks/select.vue'
+  // import {deepCopy} from "@/utils/deep-copy"
+  // import MaxMinInput from '@/components/max-min-input'
+  // import SelectTree from '@/components/select-tree/index.vue'
+  import DateTimeRange from '@/components/date-time-range/index.vue'
+  // import NumInput from '@/components/auth-num-input/index.vue'
+  // import marksSelect from '@/components/marks/select.vue'
 
-// import EnhanceSelect from './enhance-select'
-// import QuickDateRange from '@/components/quick-date-range'
-export default {
-  name: "ConfigForm",
-  components: {
-    // MaxMinInput,
-    // SelectTree,
-    // DateTimeRange,
-    // NumInput,
-    // marksSelect,
-    // EnhanceSelect,
-    // QuickDateRange
-  },
-  props: {
-    formConfig: {
-      type: Object,
-      required: true,
+  // import EnhanceSelect from './enhance-select'
+  // import QuickDateRange from '@/components/quick-date-range'
+  export default {
+    name: 'ConfigForm',
+    components: {
+      // MaxMinInput,
+      // SelectTree,
+      DateTimeRange,
+      // NumInput,
+      // marksSelect,
+      // EnhanceSelect,
+      // QuickDateRange
     },
-    fullFormConfig: {
-      type: Object,
-      default: null,
-    },
-    col: {
-      type: Number,
-      default: 3,
-    },
-    inline: {
-      type: Boolean,
-      default: false,
-    },
-    labelWidth: {
-      type: String,
-      default: "87px",
-    },
-  },
-
-  computed: {
-    realFormConfig() {
-      // 快速搜索区域是部分form，有时候需要改动全部form
-      return this.fullFormConfig || this.formConfig
-    },
-  },
-
-  created() {
-    // 给每个item增加默认值
-    Object.values(this.formConfig).forEach((o) => {
-      // o.defaultValue = deepCopy(o.value)
-      // o.defaultInputValue = deepCopy(o.defaultInput)
-      // o.defaultSelectValue = deepCopy(o.selectValue)
-
-      const {type} = o
-      o.span = 12
-      type === "daterange" && (o.span = 16)
-      type === "date-time-range" && (o.span = 24)
-      type === "title" && (o.span = 24)
-      type === "batch" && (o.span = 24)
-    })
-  },
-
-  methods: {
-    getData() {
-      this.$emit("getData")
+    props: {
+      formConfig: {
+        type: Object,
+        required: true,
+      },
+      fullFormConfig: {
+        type: Object,
+        default: null,
+      },
+      col: {
+        type: Number,
+        default: 3,
+      },
+      inline: {
+        type: Boolean,
+        default: false,
+      },
+      labelWidth: {
+        type: String,
+        default: '87px',
+      },
     },
 
-    handleDateChange(key, value, item) {
-      if (!value) {
-        value = []
-      }
-
-      if (value.length === 2) {
-        const end = value[1].split(" ")
-        end[1] = "23:59:59"
-        value[1] = end.join(" ")
-      }
-
-      // eslint-disable-next-line vue/no-mutating-props
-      this.formConfig[key].value = value
-
-      item.onChange && item.onChange(value)
+    computed: {
+      realFormConfig() {
+        // 快速搜索区域是部分form，有时候需要改动全部form
+        return this.fullFormConfig || this.formConfig
+      },
     },
-    // 下拉树型控件 树节点点击事件
-    handleNodeClick(data, item) {
-      item.selectedLabel = data.name
-      item.value = data.id
-      console.log(this.$refs.classTreeDom)
-      this.$refs.classTreeDom[0].blur()
-    },
-    _calSpan(item) {
-      if (this.inline) {
-        let i = 1
-        if (item.type === "date-time-range") {
-          i = 2
-        }
 
-        return (24 / this.col) * i
-      } else {
-        if (item.type === "quick-date-range") {
-          return 24
-        }
-        return item.span
-      }
-    },
-    reCalc() {
-      this.$nextTick(() => {
-        this.$refs["EnhanceSelect"] &&
-          this.$refs["EnhanceSelect"].map((v) => v.handleToUpData())
+    created() {
+      // 给每个item增加默认值
+      Object.values(this.formConfig).forEach((o) => {
+        // o.defaultValue = deepCopy(o.value)
+        // o.defaultInputValue = deepCopy(o.defaultInput)
+        // o.defaultSelectValue = deepCopy(o.selectValue)
+
+        const { type } = o
+        o.span = 12
+        type === 'daterange' && (o.span = 16)
+        type === 'date-time-range' && (o.span = 24)
+        type === 'title' && (o.span = 24)
+        type === 'batch' && (o.span = 24)
       })
     },
-  },
-}
+
+    methods: {
+      getData() {
+        this.$emit('getData')
+      },
+
+      handleDateChange(key, value, item) {
+        if (!value) {
+          value = []
+        }
+
+        if (value.length === 2) {
+          const end = value[1].split(' ')
+          end[1] = '23:59:59'
+          value[1] = end.join(' ')
+        }
+
+        // eslint-disable-next-line vue/no-mutating-props
+        this.formConfig[key].value = value
+
+        item.onChange && item.onChange(value)
+      },
+      // 下拉树型控件 树节点点击事件
+      handleNodeClick(data, item) {
+        item.selectedLabel = data.name
+        item.value = data.id
+        console.log(this.$refs.classTreeDom)
+        this.$refs.classTreeDom[0].blur()
+      },
+      _calSpan(item) {
+        if (this.inline) {
+          let i = 1
+          if (item.type === 'date-time-range') {
+            i = 2
+          }
+
+          return (24 / this.col) * i
+        } else {
+          if (item.type === 'quick-date-range') {
+            return 24
+          }
+          return item.span
+        }
+      },
+      reCalc() {
+        this.$nextTick(() => {
+          this.$refs['EnhanceSelect'] &&
+            this.$refs['EnhanceSelect'].map((v) => v.handleToUpData())
+        })
+      },
+    },
+  }
 </script>
 
 <style lang="less" scoped>
-// .a-form {
-//   ::v-deep .a-form-item__content {
-//     height: 32px;
-//   }
-// }
+  // .a-form {
+  //   ::v-deep .a-form-item__content {
+  //     height: 32px;
+  //   }
+  // }
 
-.batch-search {
-  padding: 12px 16px;
-  background: #f6f6f6;
-  border-radius: 4px;
-  margin-bottom: 18px;
+  .batch-search {
+    padding: 12px 16px;
+    background: #f6f6f6;
+    border-radius: 4px;
+    margin-bottom: 18px;
 
-  .radio-wrap {
-    display: flex;
+    .radio-wrap {
+      display: flex;
 
-    > span {
-      white-space: nowrap;
-      line-height: normal;
-    }
+      > span {
+        white-space: nowrap;
+        line-height: normal;
+      }
 
-    .a-radio {
-      margin-right: 16px;
+      .a-radio {
+        margin-right: 16px;
 
-      height: 14px;
+        height: 14px;
 
-      line-height: 14px;
-      margin-bottom: 8px;
+        line-height: 14px;
+        margin-bottom: 8px;
 
-      ::v-deep .a-radio__label {
-        font-size: 13px;
-        padding-left: 8px;
-        font-weight: 400;
+        ::v-deep .a-radio__label {
+          font-size: 13px;
+          padding-left: 8px;
+          font-weight: 400;
+        }
       }
     }
   }
-}
 
-.title {
-  font-size: 12px;
-  font-weight: 500;
-  color: #3b6dff;
-  margin-top: 6px;
+  .title {
+    font-size: 12px;
+    font-weight: 500;
+    color: #3b6dff;
+    margin-top: 6px;
 
-  .a-divider {
-    margin: 4px 0 24px;
-  }
-}
-
-.selectinput {
-  // height: 33px;
-  /deep/.a-input__inner {
-    border-radius: 0 2px 2px 0 !important;
-    padding: 0 0 0 17px;
+    .a-divider {
+      margin: 4px 0 24px;
+    }
   }
 
-  /deep/.a-input-group__prepend {
-    background-color: #ffffff;
-    border-radius: 2px 0 0 2px;
-    padding: 0 12px;
+  .selectinput {
+    // height: 33px;
+    /deep/.a-input__inner {
+      border-radius: 0 2px 2px 0 !important;
+      padding: 0 0 0 17px;
+    }
+
+    /deep/.a-input-group__prepend {
+      background-color: #ffffff;
+      border-radius: 2px 0 0 2px;
+      padding: 0 12px;
+    }
   }
-}
 
-.a-form-item--small.a-form-item {
-  margin-bottom: 12px;
-}
-
-.a-form-item--small ::v-deep .a-form-item__content {
-  min-height: 33px;
-}
-
-.empty {
-  height: 49px;
-}
-
-.a-range-editor.a-input__inner {
-  width: 100%;
-}
-
-// 多选 tag长度限制，因为有name 有+3 有输入，暂时设置43%
-.a-select /deep/ .a-tag {
-  max-width: 81%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-// textarea
-.config-text-area /deep/ textarea {
-  min-height: 50px !important;
-  border-radius: 2px;
-
-  @media screen and (max-width: 1632px) {
-    min-height: 66px !important;
+  .a-form-item--small.a-form-item {
+    margin-bottom: 12px;
   }
-}
+
+  .a-form-item--small ::v-deep .a-form-item__content {
+    min-height: 33px;
+  }
+
+  .empty {
+    height: 49px;
+  }
+
+  .a-range-editor.a-input__inner {
+    width: 100%;
+  }
+
+  // 多选 tag长度限制，因为有name 有+3 有输入，暂时设置43%
+  .a-select /deep/ .a-tag {
+    max-width: 81%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  // textarea
+  .config-text-area /deep/ textarea {
+    min-height: 50px !important;
+    border-radius: 2px;
+
+    @media screen and (max-width: 1632px) {
+      min-height: 66px !important;
+    }
+  }
 </style>
