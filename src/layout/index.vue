@@ -24,8 +24,11 @@
       </a-menu>
     </a-layout-sider>
     <div class="vab-menu-child">
+      <div class="bg-white text-center child-menu-header border-right text-500">
+        {{ topRoute?.meta?.title }}
+      </div>
       <a-menu
-        class="vab-menu"
+        class="vab-menu fs-14"
         theme="light"
         mode="inline"
         v-model:selectedKeys="childSelectedKeys"
@@ -44,16 +47,7 @@
       <a-layout-header class="vab-header">
         <a-row>
           <a-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
-            <!-- <menu-unfold-outlined
-              v-if="collapse"
-              class="trigger"
-              @click="toggleCollapse"
-            />
-            <menu-fold-outlined
-              v-else
-              class="trigger"
-              @click="toggleCollapse"
-            /> -->
+            {{ $route.meta.title }}
           </a-col>
           <a-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
             <vab-avatar />
@@ -72,7 +66,6 @@
   // import VabTabs from './vab-tabs'
   import VabContent from './vab-content'
   import { mapActions, mapGetters } from 'vuex'
-  // import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue'
 
   export default {
     components: {
@@ -81,14 +74,12 @@
       VabMenu,
       // VabTabs,
       VabContent,
-      // MenuUnfoldOutlined,
-      // MenuFoldOutlined,
     },
     data() {
       return {
         selectedKeys: [],
         childSelectedKeys: [],
-        openKeys: [],
+        topRoute: undefined,
       }
     },
     computed: {
@@ -115,6 +106,7 @@
       $route: {
         handler({ path, matched }) {
           console.log(path, matched)
+          this.topRoute = matched?.[0]
           if (matched[0].children.length > 1) {
             this.selectedKeys = [matched[0].path]
             this.childSelectedKeys = [path]
@@ -122,10 +114,6 @@
             this.selectedKeys = [matched[0].path]
             this.childSelectedKeys = [path]
           }
-          // matched[0].children.length > 1
-          //   ? (this.selectedKeys = [path])
-          //   : (this.selectedKeys = [matched[0].path])
-          // this.openKeys = [matched[0].path]
         },
         immediate: true,
       },
@@ -167,6 +155,10 @@
     }
     .vab-menu-child {
       margin-left: 180px;
+      .child-menu-header {
+        height: @vab-header-height;
+        line-height: @vab-header-height;
+      }
     }
     .vab-menu {
       height: calc(100vh);
@@ -231,8 +223,8 @@
       }
     }
     .vab-header {
-      padding: 0;
       background: #fff;
+      padding: 0 @vab-padding;
       .ant-col + .ant-col {
         display: flex;
         justify-content: flex-end;

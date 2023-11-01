@@ -17,11 +17,11 @@
   </a-card>
   <!-- 结果 -->
   <a-card class="mt-m">
-    <a-table bordered :data-source="dataSource" :columns="columns">
+    <a-table bordered :data-source="dataSource" :columns="columns" size="small">
       <template #bodyCell="{ column, record }">
         <template v-if="column.dataIndex === 'operation'">
-          <a>Delete</a>
-          <a-button @click="handleEdit(record)">编辑</a-button>
+          <a-button @click="handleEdit(record)" type="link">编辑</a-button>
+          <a-button @click="handleEdit(record)" type="link">加标签</a-button>
         </template>
       </template>
     </a-table>
