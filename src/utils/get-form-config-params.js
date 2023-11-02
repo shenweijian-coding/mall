@@ -1,14 +1,9 @@
 export const getFormConfigParams = (formConfig) => {
   const params = {}
-
   for (const prop in formConfig) {
     const formItem = formConfig[prop]
-
     // 需要有value属性
-    if (
-      formItem.hasOwnProperty.call('value') ||
-      formItem.hasOwnProperty.call('inputValue')
-    ) {
+    if (formItem?.value || formItem?.inputValue) {
       const { value, type, getValue, label, inputValue, selectValue } = formItem
 
       if (getValue) {

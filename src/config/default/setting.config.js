@@ -14,7 +14,9 @@ const setting = {
   transpileDependencies: ['vue-echarts', 'resize-detector'],
   //默认的接口地址 如果是开发环境和生产环境走vab-mock-server，当然你也可以选择自己配置成需要的接口地址
   baseURL:
-    process.env.NODE_ENV === 'development' ? 'mock-server' : 'mock-server',
+    process.env.NODE_ENV === 'development'
+      ? 'http://127.0.0.1:4523/m1/3519894-0-default'
+      : 'mock-server',
   //标题 （包括初次加载雪花屏的标题 页面的标题 浏览器的标题）
   title: '',
   //标题分隔符
@@ -52,7 +54,7 @@ const setting = {
   //在哪些环境下显示高亮错误
   errorLog: ['development', 'production'],
   //是否开启登录拦截
-  loginInterception: true,
+  loginInterception: false,
   //是否开启登录RSA加密
   loginRSA: false,
   //intelligence（前端导出路由）和all（后端导出路由）两种方式

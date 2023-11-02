@@ -41,3 +41,12 @@ export function register() {
     method: 'post',
   })
 }
+
+// 获取用户列表
+export function getUserList(data) {
+  return request({
+    url: '/user/getUserList',
+    method: 'post',
+    data,
+  })
+}

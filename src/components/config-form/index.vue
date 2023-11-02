@@ -57,7 +57,7 @@
 
             <a-input
               v-else-if="item.type === 'input'"
-              v-model="item.value"
+              v-model:value="item.value"
               clearable
               :placeholder="item.placeholder || `请输入${item.label}`"
               @keyup.enter="getData"
@@ -238,6 +238,10 @@
         </a-col>
       </template>
 
+      <a-form-item>
+        <a-button type="primary" @click="$emit('search')">查询</a-button>
+        <a-button class="ml-m" @click="handleClickResetBtn">重置</a-button>
+      </a-form-item>
       <a-form-item v-if="$slots.default" style="float: right">
         <slot />
       </a-form-item>
@@ -246,7 +250,7 @@
 </template>
 
 <script>
-  // import {deepCopy} from "@/utils/deep-copy"
+  import { deepCopy } from '@/utils/deep-copy'
   // import MaxMinInput from '@/components/max-min-input'
   // import SelectTree from '@/components/select-tree/index.vue'
   import DateTimeRange from '@/components/date-time-range/index.vue'
@@ -359,6 +363,22 @@
         this.$nextTick(() => {
           this.$refs['EnhanceSelect'] &&
             this.$refs['EnhanceSelect'].map((v) => v.handleToUpData())
+        })
+      },
+      handleClickResetBtn() {
+        this.resetFormData(true)
+        this.$emit('search')
+      },
+      resetFormData(emitOnChange = false) {
+        Object.values(this.formConfig).forEach((row) => {
+          !row.resetType && (row.value = deepCopy(row.defaultValue))
+          row.inputValue = deepCopy(row.defaultInputValue)
+          row.selectValue = deepCopy(row.defaultSelectValue)
+          row.selectedLabel = deepCopy(row.defaultSelectedLabel)
+
+          emitOnChange &&
+            row.onChange &&
+            row.onChange(row.value, this.formConfig)
         })
       },
     },

@@ -47,6 +47,16 @@ export const asyncRoutes = [
           title: '用户列表',
         },
       },
+      {
+        path: 'detail',
+        name: 'user-detail',
+        component: () => import('@/views/user/detail'),
+        hidden: true,
+        meta: {
+          title: '用户详情',
+          belong: '/user/list',
+        },
+      },
     ],
   },
   {

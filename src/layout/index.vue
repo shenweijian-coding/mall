@@ -46,8 +46,15 @@
     >
       <a-layout-header class="vab-header">
         <a-row>
-          <a-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
-            {{ $route.meta.title }}
+          <a-col
+            class="flex ai-center"
+            :xs="12"
+            :sm="12"
+            :md="12"
+            :lg="12"
+            :xl="12"
+          >
+            <breadcrumb />
           </a-col>
           <a-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
             <vab-avatar />
@@ -66,6 +73,7 @@
   // import VabTabs from './vab-tabs'
   import VabContent from './vab-content'
   import { mapActions, mapGetters } from 'vuex'
+  import breadcrumb from './breadcrumb'
 
   export default {
     components: {
@@ -74,6 +82,7 @@
       VabMenu,
       // VabTabs,
       VabContent,
+      breadcrumb,
     },
     data() {
       return {
@@ -109,10 +118,10 @@
           this.topRoute = matched?.[0]
           if (matched[0].children.length > 1) {
             this.selectedKeys = [matched[0].path]
-            this.childSelectedKeys = [path]
+            this.childSelectedKeys = [matched[1].meta?.belong || path]
           } else {
             this.selectedKeys = [matched[0].path]
-            this.childSelectedKeys = [path]
+            this.childSelectedKeys = [matched[1].path]
           }
         },
         immediate: true,
@@ -161,7 +170,7 @@
       }
     }
     .vab-menu {
-      height: calc(100vh);
+      height: calc(100vh - @vab-header-height);
     }
     .vab-layout {
       padding-left: 0px;

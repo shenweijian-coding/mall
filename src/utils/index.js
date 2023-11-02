@@ -265,3 +265,17 @@ export const off = (function () {
     }
   }
 })()
+
+export const debounce = (fn, delay) => {
+  let that = this // 获取上下文
+  let timer = null // 利用闭包，避免污染
+  return function () {
+    let args = arguments // 获取当前参数
+    if (timer) {
+      clearTimeout(timer)
+    }
+    timer = setTimeout(() => {
+      fn.apply(that, args)
+    }, delay)
+  }
+}
